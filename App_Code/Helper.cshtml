@@ -1,0 +1,91 @@
+﻿@helper ListToRadioButtonGroup(string name, System.Web.Mvc.SelectList options, int selectedValue = 0, bool create = false)
+{
+     foreach (System.Web.Mvc.SelectListItem option in options.Items)
+    {
+        string id = name + "_" + option.Value;
+
+        if (!create && option.Value == selectedValue.ToString())
+        {
+            <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" checked />
+        }
+        else
+        {
+            <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" />
+        }
+        <label for="@id" class="control-label">@option.Text</label>
+    }
+    <br />
+}
+
+@helper EnumToRadioButtonGroup(string name, object enumObj, bool create = false)
+{
+    int index = 0;
+    foreach (var enumItem in Enum.GetValues(enumObj.GetType()))
+    {
+        string id = name + "_" + index.ToString();
+
+        if (!create && index == (int)enumObj)
+        {
+            <input type="radio" name="@name" class="@name" id="@id" value="@index" checked />
+        }
+        else
+        {
+            <input type="radio" name="@name" class="@name" id="@id" value="@index" />
+        }
+        <label for="@id" class="control-label">@enumItem.ToString()</label>
+        index++;
+    }
+    <br />
+}
+
+@helper GlyphiconAction(string Action, string glyphiconClass, string TooltipMessage, string ToolTipPlacement = "bottom")
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <a href="@Url.Action(Action)" style="text-decoration:none">
+        <span class="glyphicon glyphiconStyle @glyphiconClass"
+              title="@TooltipMessage"
+              data-placement="@ToolTipPlacement">
+        </span>
+    </a>
+}
+
+@helper GlyphiconConfirmAction(string Action, string glyphiconClass, string TooltipMessage, string ToolTipPlacement = "bottom")
+{
+    //// http://bootboxjs.com/documentation.html#bb-confirm
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <div onclick='bootbox.confirm("@TooltipMessage", function(result){ if (result) window.location = "@Url.Action(Action)"; })'>
+        <span class="glyphicon glyphiconStyle @glyphiconClass"
+              title="@TooltipMessage"
+              data-placement="@ToolTipPlacement">
+        </span>
+    </div>
+}
+
+
+@helper When(DateTime date)
+{
+    TimeSpan span = DateTime.Now.Subtract(date);
+    if (span.Days > 0)
+    {
+        <div style="float:left">Le @date.ToLongDateString()&nbsp;</div>
+        <div class="glyphicon glyphicon-time smallGlyphicon" title="@date.ToShortTimeString()" data-placement="right"></div>
+    }
+    else
+    {
+        if (span.Hours > 1)
+        {
+            <span>Il y a @span.Hours heures</span>
+        }
+        else
+        {
+            if (span.Minutes > 1)
+            {
+                <span>Il y a @span.Minutes minutes</span>
+            }
+            else
+            {
+                <span>à l'instant</span>
+            }
+        }
+    }
+}

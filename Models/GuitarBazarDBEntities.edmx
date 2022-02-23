@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GuitarBazarDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Conditions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Guitars">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Maker" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Model" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="AddDate" Type="datetime" Nullable="false" />
+          <Property Name="ConditionId" Type="int" Nullable="false" />
+          <Property Name="GuitarTypeId" Type="int" Nullable="false" />
+          <Property Name="ImageURL" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RotateImage" Type="bit" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="Sold" Type="bit" Nullable="false" />
+          <Property Name="SellerId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GuitarTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sellers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Guitars_Conditions">
+          <End Role="Conditions" Type="Self.Conditions" Multiplicity="1" />
+          <End Role="Guitars" Type="Self.Guitars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conditions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Guitars">
+              <PropertyRef Name="ConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Guitars_GuitarTypes">
+          <End Role="GuitarTypes" Type="Self.GuitarTypes" Multiplicity="1" />
+          <End Role="Guitars" Type="Self.Guitars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GuitarTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Guitars">
+              <PropertyRef Name="GuitarTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Guitars_Sellers">
+          <End Role="Sellers" Type="Self.Sellers" Multiplicity="1" />
+          <End Role="Guitars" Type="Self.Guitars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sellers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Guitars">
+              <PropertyRef Name="SellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GuitarBazarDBModelStoreContainer">
+          <EntitySet Name="Conditions" EntityType="Self.Conditions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Guitars" EntityType="Self.Guitars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GuitarTypes" EntityType="Self.GuitarTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sellers" EntityType="Self.Sellers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Guitars_Conditions" Association="Self.FK_Guitars_Conditions">
+            <End Role="Conditions" EntitySet="Conditions" />
+            <End Role="Guitars" EntitySet="Guitars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guitars_GuitarTypes" Association="Self.FK_Guitars_GuitarTypes">
+            <End Role="GuitarTypes" EntitySet="GuitarTypes" />
+            <End Role="Guitars" EntitySet="Guitars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guitars_Sellers" Association="Self.FK_Guitars_Sellers">
+            <End Role="Sellers" EntitySet="Sellers" />
+            <End Role="Guitars" EntitySet="Guitars" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GuitarBazarDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Guitars" Relationship="Self.FK_Guitars_Conditions" FromRole="Conditions" ToRole="Guitars" />
+        </EntityType>
+        <EntityType Name="Guitar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Maker" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="AddDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ConditionId" Type="Int32" Nullable="false" />
+          <Property Name="GuitarTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ImageURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RotateImage" Type="Boolean" Nullable="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="Sold" Type="Boolean" Nullable="false" />
+          <Property Name="SellerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Condition" Relationship="Self.FK_Guitars_Conditions" FromRole="Guitars" ToRole="Conditions" />
+          <NavigationProperty Name="GuitarType" Relationship="Self.FK_Guitars_GuitarTypes" FromRole="Guitars" ToRole="GuitarTypes" />
+          <NavigationProperty Name="Seller" Relationship="Self.FK_Guitars_Sellers" FromRole="Guitars" ToRole="Sellers" />
+        </EntityType>
+        <EntityType Name="GuitarType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Guitars" Relationship="Self.FK_Guitars_GuitarTypes" FromRole="GuitarTypes" ToRole="Guitars" />
+        </EntityType>
+        <EntityType Name="Seller">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Guitars" Relationship="Self.FK_Guitars_Sellers" FromRole="Sellers" ToRole="Guitars" />
+        </EntityType>
+        <Association Name="FK_Guitars_Conditions">
+          <End Role="Conditions" Type="Self.Condition" Multiplicity="1" />
+          <End Role="Guitars" Type="Self.Guitar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conditions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Guitars">
+              <PropertyRef Name="ConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Guitars_GuitarTypes">
+          <End Role="GuitarTypes" Type="Self.GuitarType" Multiplicity="1" />
+          <End Role="Guitars" Type="Self.Guitar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GuitarTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Guitars">
+              <PropertyRef Name="GuitarTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Guitars_Sellers">
+          <End Role="Sellers" Type="Self.Seller" Multiplicity="1" />
+          <End Role="Guitars" Type="Self.Guitar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sellers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Guitars">
+              <PropertyRef Name="SellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GuitarBazarDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Conditions" EntityType="Self.Condition" />
+          <EntitySet Name="Guitars" EntityType="Self.Guitar" />
+          <EntitySet Name="GuitarTypes" EntityType="Self.GuitarType" />
+          <EntitySet Name="Sellers" EntityType="Self.Seller" />
+          <AssociationSet Name="FK_Guitars_Conditions" Association="Self.FK_Guitars_Conditions">
+            <End Role="Conditions" EntitySet="Conditions" />
+            <End Role="Guitars" EntitySet="Guitars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guitars_GuitarTypes" Association="Self.FK_Guitars_GuitarTypes">
+            <End Role="GuitarTypes" EntitySet="GuitarTypes" />
+            <End Role="Guitars" EntitySet="Guitars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Guitars_Sellers" Association="Self.FK_Guitars_Sellers">
+            <End Role="Sellers" EntitySet="Sellers" />
+            <End Role="Guitars" EntitySet="Guitars" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GuitarBazarDBModelStoreContainer" CdmEntityContainer="GuitarBazarDBEntities">
+          <EntitySetMapping Name="Conditions">
+            <EntityTypeMapping TypeName="GuitarBazarDBModel.Condition">
+              <MappingFragment StoreEntitySet="Conditions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Guitars">
+            <EntityTypeMapping TypeName="GuitarBazarDBModel.Guitar">
+              <MappingFragment StoreEntitySet="Guitars">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Maker" ColumnName="Maker" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+                <ScalarProperty Name="ConditionId" ColumnName="ConditionId" />
+                <ScalarProperty Name="GuitarTypeId" ColumnName="GuitarTypeId" />
+                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="RotateImage" ColumnName="RotateImage" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Sold" ColumnName="Sold" />
+                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GuitarTypes">
+            <EntityTypeMapping TypeName="GuitarBazarDBModel.GuitarType">
+              <MappingFragment StoreEntitySet="GuitarTypes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sellers">
+            <EntityTypeMapping TypeName="GuitarBazarDBModel.Seller">
+              <MappingFragment StoreEntitySet="Sellers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
