@@ -1,10 +1,10 @@
-﻿@helper ListToRadioButtonGroup(string name, System.Web.Mvc.SelectList options, int selectedValue = 0, bool create = false)
+﻿@helper ListToRadioButtonGroup(string name, System.Web.Mvc.SelectList options, int selectedValue)
 {
-     foreach (System.Web.Mvc.SelectListItem option in options.Items)
+    foreach (System.Web.Mvc.SelectListItem option in options.Items)
     {
         string id = name + "_" + option.Value;
 
-        if (!create && option.Value == selectedValue.ToString())
+        if (option.Value == selectedValue.ToString())
         {
             <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" checked />
         }
@@ -13,27 +13,6 @@
             <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" />
         }
         <label for="@id" class="control-label">@option.Text</label>
-    }
-    <br />
-}
-
-@helper EnumToRadioButtonGroup(string name, object enumObj, bool create = false)
-{
-    int index = 0;
-    foreach (var enumItem in Enum.GetValues(enumObj.GetType()))
-    {
-        string id = name + "_" + index.ToString();
-
-        if (!create && index == (int)enumObj)
-        {
-            <input type="radio" name="@name" class="@name" id="@id" value="@index" checked />
-        }
-        else
-        {
-            <input type="radio" name="@name" class="@name" id="@id" value="@index" />
-        }
-        <label for="@id" class="control-label">@enumItem.ToString()</label>
-        index++;
     }
     <br />
 }
@@ -59,6 +38,25 @@
               data-placement="@ToolTipPlacement">
         </span>
     </div>
+}
+
+
+@helper BoolToValue(bool b, string falseText = "non", string trueText = "oui")
+{
+    if (b)
+    {
+        @trueText
+    }
+    else
+    {
+        @falseText
+    }
+}
+
+@helper DateTimeControl(DateTime dateTime, string Id)
+{
+    string date = dateTime.ToShortDateString() + "T" + dateTime.ToShortTimeString();
+    <input type="datetime-local" name="@Id" id="@Id" value="@date" class="form-control" />
 }
 
 
@@ -89,3 +87,22 @@
         }
     }
 }
+@helper GuitarImage(string id, string imgClass, string url, bool sold, bool rotate = false)
+{
+    var ContextUrl = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var imageUrl = ContextUrl.Content("~/Content/Images/defaultGuitarLogo.jpg");
+    var soldUrl = ContextUrl.Content("~/Content/Images/sold.png");
+    var rotateCSS = (rotate ? "transform: rotate(270deg)" : "");
+    var soldCSS = (rotate ? "transform: rotate(-270deg)" : "");
+    if (!string.IsNullOrEmpty(url))
+    {
+        imageUrl = url;
+    }
+    <div id="@id" class='@imgClass' style='background:url(@imageUrl) no-repeat center;  background-size: contain; @rotateCSS'>
+            @if (sold)
+            {
+                <img src="@soldUrl" class="soldStamp" style="@soldCSS"/>
+            }
+    </div>
+}
+

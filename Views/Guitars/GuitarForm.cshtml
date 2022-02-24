@@ -1,0 +1,151 @@
+﻿@model GuitarBazar.Models.Guitar
+@{
+    bool creating = Model.Id == 0;
+}
+
+@if (creating)
+{
+    <h2>Ajout de guitare à vendre</h2>
+}
+else
+{
+    <h2>Modification de guitare à vendre</h2>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-horizontal">
+        <h4>Guitar</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @if (!creating)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.AddDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Helper.DateTimeControl(Model.AddDate, "AddDate")
+                    @Html.ValidationMessageFor(model => model.AddDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SellerId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("SellerId", (SelectList)ViewBag.Sellers, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SellerId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Maker, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Maker, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Maker, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConditionId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Helper.ListToRadioButtonGroup("ConditionId", (SelectList)ViewBag.Conditions, Model.ConditionId)
+                @Html.ValidationMessageFor(model => model.ConditionId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GuitarTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Helper.ListToRadioButtonGroup("GuitarTypeId", (SelectList)ViewBag.GuitarTypes, Model.GuitarTypeId)
+                @Html.ValidationMessageFor(model => model.GuitarTypeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageURL, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ImageURL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ImageURL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="form-group">
+            @Html.Label("Aperçu", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <table>
+                    <tr style="vertical-align:top">
+                        <td> @Helper.GuitarImage("preview", "thumbnail", Model.ImageURL, false, Model.RotateImage)</td>
+                        <td> @Html.LabelFor(model => model.RotateImage, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                        <td style="padding-top:7px"> @Html.EditorFor(model => model.RotateImage)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sold, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Sold)
+                    @Html.ValidationMessageFor(model => model.Sold, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @if (creating)
+                {
+                    <input type="submit" value="Ajouter" class="btn btn-default" />
+                }
+                else
+                {
+                    <input type="submit" value="Modifier" class="btn btn-default" />
+                }
+
+            </div>
+        </div>
+    </div>
+}
+
+<hr />
+<div>
+    @Helper.GlyphiconAction("index/", "glyphicon-circle-arrow-left", "Liste des guitares à vendre")
+</div>

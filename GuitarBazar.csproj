@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\GuitarsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SellersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -162,6 +163,7 @@
     <Compile Include="Models\Seller.cs">
       <DependentUpon>GuitarBazarDBEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SellerView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +175,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\defaultGuitarLogo.jpg" />
+    <Content Include="Content\Images\GuitarLogo.png" />
+    <Content Include="Content\Images\sold.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -187,6 +192,8 @@
       <DependentUpon>GuitarBazarDBEntities.edmx</DependentUpon>
       <LastGenOutput>GuitarBazarDBEntities.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\GuitarBazarDBEntities.edmx">
@@ -198,11 +205,14 @@
     </Content>
     <Content Include="App_Code\Helper.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\FormUtilities.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.maskedinput.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -224,6 +234,15 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Guitars\Index.cshtml" />
     <Content Include="Views\Guitars\Create.cshtml" />
+    <Content Include="Views\Guitars\GuitarForm.cshtml" />
+    <Content Include="Views\Guitars\Edit.cshtml" />
+    <Content Include="Views\Guitars\Details.cshtml" />
+    <Content Include="Views\Sellers\Create.cshtml" />
+    <Content Include="Views\Sellers\Delete.cshtml" />
+    <Content Include="Views\Sellers\Details.cshtml" />
+    <Content Include="Views\Sellers\Edit.cshtml" />
+    <Content Include="Views\Sellers\Index.cshtml" />
+    <Content Include="Views\Guitars\About.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

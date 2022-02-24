@@ -20,7 +20,7 @@ namespace GuitarBazar.Models
                 });
             }
             if (!noEmptyEntry)
-                items.Insert(0, new SelectListItem { Value = "", Text = "" });
+                items.Insert(0, new SelectListItem { Value = "", Text = "Veuillez faire une sélection" });
             return new SelectList(items, "Value", "Text");
         }
     }
