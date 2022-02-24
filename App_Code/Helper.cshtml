@@ -17,6 +17,23 @@
     <br />
 }
 
+@helper SelectList(string name, System.Web.Mvc.SelectList options, int selectedValue)
+{
+    <select class="form-control" id="@name" name="@name">
+        @foreach (System.Web.Mvc.SelectListItem option in options.Items)
+        {
+            if (option.Value == selectedValue.ToString())
+            {
+                <option value="@option.Value" selected>@option.Text</option>
+            }
+            else
+            {
+                <option value="@option.Value" >@option.Text</option>
+            }
+        }
+    </select>
+}
+
 @helper GlyphiconAction(string Action, string glyphiconClass, string TooltipMessage, string ToolTipPlacement = "bottom")
 {
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
@@ -99,10 +116,10 @@
         imageUrl = url;
     }
     <div id="@id" class='@imgClass' style='background:url(@imageUrl) no-repeat center;  background-size: contain; @rotateCSS'>
-            @if (sold)
-            {
-                <img src="@soldUrl" class="soldStamp" style="@soldCSS"/>
-            }
+        @if (sold)
+        {
+            <img src="@soldUrl" class="soldStamp" style="@soldCSS" />
+        }
     </div>
 }
 

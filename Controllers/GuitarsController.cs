@@ -11,10 +11,48 @@ namespace GuitarBazar.Controllers
     public class GuitarsController : Controller
     {
         Models.GuitarBazarDBEntities DB = new Models.GuitarBazarDBEntities();
+
+        private void InitSessionKeys()
+        {
+            if (Session["SoldFilterChoice"] == null)
+            {
+                Session["SoldFilterChoice"] = 0;
+                List<SelectListItem> soldFilterChoicesItems = new List<SelectListItem>();
+                soldFilterChoicesItems.Add(new SelectListItem { Value = "0", Text = "Toutes" });
+                soldFilterChoicesItems.Add(new SelectListItem { Value = "1", Text = "Invendues" });
+                soldFilterChoicesItems.Add(new SelectListItem { Value = "2", Text = "Vendues" });
+                Session["SoldFilterList"] = new SelectList(soldFilterChoicesItems, 0);
+            }
+            if (Session["SellerFilterChoice"] == null)
+            {
+                Session["SellerFilterChoice"] = 0;
+                List<SelectListItem> sellerFilterChoicesItems = new List<SelectListItem>();
+                sellerFilterChoicesItems.Add(new SelectListItem { Value = "0", Text = "Tous" });
+                foreach (Seller seller in DB.Sellers.OrderBy(s => s.Name))
+                {
+                    sellerFilterChoicesItems.Add(new SelectListItem { Value = seller.Id.ToString(), Text = seller.Name });
+                }
+                Session["SellerFilterList"] = new SelectList(sellerFilterChoicesItems, 0);
+            }            
+        }
+
         // GET: Guitars
         public ActionResult Index()
         {
-            return View(DB.Guitars.OrderByDescending(g => g.AddDate));
+            InitSessionKeys();
+            return View(DB.FilteredGuitarList((int)Session["SoldFilterChoice"], (int)Session["SellerFilterChoice"]));
+        }
+
+        public ActionResult SetSoldFilterChoice(int id)
+        {
+            Session["SoldFilterChoice"] = id;
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult SetSellerFilterChoice(int id)
+        {
+            Session["SellerFilterChoice"] = id;
+            return RedirectToAction("Index");
         }
 
         public PartialViewResult GuitarForm(Guitar guitar)
@@ -44,8 +82,7 @@ namespace GuitarBazar.Controllers
         {
             if (ModelState.IsValid)
             {
-                DB.Guitars.Add(guitar);
-                DB.SaveChanges();
+                DB.Add_Guitar(guitar);
                 return RedirectToAction("Index");
             }
             ViewBag.Conditions = SelectListItemConverter<Condition>.Convert(DB.Conditions.ToList());
@@ -71,8 +108,7 @@ namespace GuitarBazar.Controllers
         {
             if (ModelState.IsValid)
             {
-                DB.Entry(guitar).State = EntityState.Modified;
-                DB.SaveChanges();
+                DB.Update_Guitar(guitar);
                 return RedirectToAction("Index");
             }
             ViewBag.Conditions = SelectListItemConverter<Condition>.Convert(DB.Conditions.ToList());
@@ -82,9 +118,7 @@ namespace GuitarBazar.Controllers
         }
         public ActionResult Delete(int id)
         {
-            Guitar guitar = DB.Guitars.Find(id);
-            DB.Guitars.Remove(guitar);
-            DB.SaveChanges();
+            DB.Remove_Guitar(id);
             return RedirectToAction("Index");
         }
         public ActionResult About()

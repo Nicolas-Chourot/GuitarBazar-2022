@@ -14,7 +14,7 @@ namespace GuitarBazar.Controllers
     {
         private GuitarBazarDBEntities db = new GuitarBazarDBEntities();
 
-        // GET: Sellers
+         // GET: Sellers
         public ActionResult Index()
         {
             return View(db.Sellers.ToList());
@@ -50,8 +50,7 @@ namespace GuitarBazar.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Sellers.Add(seller);
-                db.SaveChanges();
+                db.Add_Seller(seller);
                 return RedirectToAction("Index");
             }
 
@@ -82,8 +81,7 @@ namespace GuitarBazar.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(seller).State = EntityState.Modified;
-                db.SaveChanges();
+                db.Update_Seller(seller);
                 return RedirectToAction("Index");
             }
             return View(seller);
@@ -91,9 +89,7 @@ namespace GuitarBazar.Controllers
 
         public ActionResult Delete(int id)
         {
-            Seller seller = db.Sellers.Find(id);
-            db.Sellers.Remove(seller);
-            db.SaveChanges();
+            db.Remove_Seller(id);
             return RedirectToAction("Index");
         }
 

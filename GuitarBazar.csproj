@@ -155,6 +155,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GuitarBazarDBEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\GuitarBazarDB_DAL.cs" />
     <Compile Include="Models\GuitarType.cs">
       <DependentUpon>GuitarBazarDBEntities.tt</DependentUpon>
     </Compile>

@@ -8,7 +8,7 @@ namespace GuitarBazar.Models
 {
     public class SelectListItemConverter<T>
     {
-        public static SelectList Convert(List<T> collection, bool noEmptyEntry = true)
+        public static SelectList Convert(List<T> collection, bool noEmptyEntry = true, string caption = "Veuillez faire une sélection")
         {
             List<SelectListItem> items = new List<SelectListItem>();
             foreach(T item in collection)
@@ -20,7 +20,7 @@ namespace GuitarBazar.Models
                 });
             }
             if (!noEmptyEntry)
-                items.Insert(0, new SelectListItem { Value = "", Text = "Veuillez faire une sélection" });
+                items.Insert(0, new SelectListItem { Value = "", Text = caption });
             return new SelectList(items, "Value", "Text");
         }
     }

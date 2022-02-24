@@ -11,6 +11,7 @@ else
 {
     <h2>Modification de guitare à vendre</h2>
 }
+@Helper.GlyphiconAction("Index", "glyphicon-circle-arrow-left", "Retour à la liste")
 
 @using (Html.BeginForm())
 {
@@ -18,7 +19,6 @@ else
     @Html.HiddenFor(model => model.Id)
 
     <div class="form-horizontal">
-        <h4>Guitar</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -145,7 +145,3 @@ else
     </div>
 }
 
-<hr />
-<div>
-    @Helper.GlyphiconAction("index/", "glyphicon-circle-arrow-left", "Liste des guitares à vendre")
-</div>
