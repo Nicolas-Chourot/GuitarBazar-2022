@@ -8,19 +8,74 @@ namespace GuitarBazar.Models
 {
     public class SelectListItemConverter<T>
     {
-        public static SelectList Convert(List<T> collection, bool noEmptyEntry = true, string caption = "Veuillez faire une sélection")
+
+        /// <summary>
+        /// Convert either a list of strings with automatic values or a list of elements that must contains the members Id and Name
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns>SelectList</returns>
+        public static SelectList Convert(List<T> collection)
         {
             List<SelectListItem> items = new List<SelectListItem>();
-            foreach(T item in collection)
+            if (typeof(T).Name == "String")
             {
-                items.Add(
-                    new SelectListItem() { 
-                    Value = typeof(T).GetProperty("Id").GetValue(item,null).ToString(), 
-                    Text = typeof(T).GetProperty("Name").GetValue(item, null).ToString() 
-                });
+                int index = 0;
+                foreach (T item in collection)
+                {
+                    items.Add(
+                        new SelectListItem()
+                        {
+                            Value = index.ToString(),
+                            Text = item.ToString()
+                        });
+                    index++;
+                }
             }
-            if (!noEmptyEntry)
-                items.Insert(0, new SelectListItem { Value = "", Text = caption });
+            else
+            {
+                foreach (T item in collection)
+                {
+                    items.Add(
+                        new SelectListItem()
+                        {
+                            Value = typeof(T).GetProperty("Id").GetValue(item, null).ToString(),
+                            Text = typeof(T).GetProperty("Name").GetValue(item, null).ToString()
+                        });
+                }
+            }
+            return new SelectList(items, "Value", "Text");
+        }
+
+        public static SelectList Convert(List<T> collection, string defaultValue, string defaultText = "Veuillez faire une sélection")
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            if (typeof(T).Name == "String")
+            {
+                int index = 0;
+                foreach (T item in collection)
+                {
+                    items.Add(
+                        new SelectListItem()
+                        {
+                            Value = index.ToString(),
+                            Text = item.ToString()
+                        });
+                    index++;
+                }
+            }
+            else
+            {
+                foreach (T item in collection)
+                {
+                    items.Add(
+                        new SelectListItem()
+                        {
+                            Value = typeof(T).GetProperty("Id").GetValue(item, null).ToString(),
+                            Text = typeof(T).GetProperty("Name").GetValue(item, null).ToString()
+                        });
+                }
+            }
+            items.Insert(0, new SelectListItem { Value = defaultValue, Text = defaultText });
             return new SelectList(items, "Value", "Text");
         }
     }

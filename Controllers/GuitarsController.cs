@@ -17,22 +17,12 @@ namespace GuitarBazar.Controllers
             if (Session["SoldFilterChoice"] == null)
             {
                 Session["SoldFilterChoice"] = 0;
-                List<SelectListItem> soldFilterChoicesItems = new List<SelectListItem>();
-                soldFilterChoicesItems.Add(new SelectListItem { Value = "0", Text = "Toutes" });
-                soldFilterChoicesItems.Add(new SelectListItem { Value = "1", Text = "Invendues" });
-                soldFilterChoicesItems.Add(new SelectListItem { Value = "2", Text = "Vendues" });
-                Session["SoldFilterList"] = new SelectList(soldFilterChoicesItems, 0);
+                Session["SoldFilterList"] = SelectListItemConverter<string>.Convert(new List<string> { "Toutes", "invendues", "Vendues" });
             }
             if (Session["SellerFilterChoice"] == null)
             {
                 Session["SellerFilterChoice"] = 0;
-                List<SelectListItem> sellerFilterChoicesItems = new List<SelectListItem>();
-                sellerFilterChoicesItems.Add(new SelectListItem { Value = "0", Text = "Tous" });
-                foreach (Seller seller in DB.Sellers.OrderBy(s => s.Name))
-                {
-                    sellerFilterChoicesItems.Add(new SelectListItem { Value = seller.Id.ToString(), Text = seller.Name });
-                }
-                Session["SellerFilterList"] = new SelectList(sellerFilterChoicesItems, 0);
+                Session["SellerFilterList"] = SelectListItemConverter<Seller>.Convert(DB.Sellers.ToList(), "0", "Tous");
             }            
         }
 
@@ -74,9 +64,10 @@ namespace GuitarBazar.Controllers
         {
             ViewBag.Conditions = SelectListItemConverter<Condition>.Convert(DB.Conditions.ToList());
             ViewBag.GuitarTypes = SelectListItemConverter<GuitarType>.Convert(DB.GuitarTypes.ToList());
-            ViewBag.Sellers = SelectListItemConverter<Seller>.Convert(DB.Sellers.ToList(), false);
+            ViewBag.Sellers = SelectListItemConverter<Seller>.Convert(DB.Sellers.ToList());
             return View(new Guitar());
         }
+
         [HttpPost]
         public ActionResult Create(Guitar guitar)
         {
@@ -87,7 +78,7 @@ namespace GuitarBazar.Controllers
             }
             ViewBag.Conditions = SelectListItemConverter<Condition>.Convert(DB.Conditions.ToList());
             ViewBag.GuitarTypes = SelectListItemConverter<GuitarType>.Convert(DB.GuitarTypes.ToList());
-            ViewBag.Sellers = SelectListItemConverter<Seller>.Convert(DB.Sellers.ToList(), false);
+            ViewBag.Sellers = SelectListItemConverter<Seller>.Convert(DB.Sellers.ToList());
             return View(new Guitar());
         }
 

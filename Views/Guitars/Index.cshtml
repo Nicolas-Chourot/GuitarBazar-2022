@@ -6,12 +6,15 @@
 
 <h2>Guitares à vendre @Helper.GlyphiconAction("Create", "glyphicon-plus", "Ajouter une guitare à vendre")</h2>
 <hr />
-<div style="display:grid; grid-template-columns: 60px 100px 20px 70px 200px">
-    <div style="font-size:14px; margin-top:6px">Guitares</div>
-    @Helper.SelectList("SoldFilterSelectList", (SelectList)Session["SoldFilterList"], (int)Session["SoldFilterChoice"])
-    <div></div>
-    <div style="font-size:14px; margin-top:6px">Vendeurs</div>
-    @Helper.SelectList("SellerFilterSelectList", (SelectList)Session["SellerFilterList"], (int)Session["SellerFilterChoice"])
+<div class="guitarFilterContainer">
+    <div style="display:grid; grid-template-columns: 70px 180px ">
+        <div style="font-size:14px; margin-top:6px">Guitares</div>
+        @Helper.SelectList("SoldFilterSelectList", (SelectList)Session["SoldFilterList"], (int)Session["SoldFilterChoice"])
+    </div>
+    <div style="display:grid; grid-template-columns: 70px 180px">
+        <div style="font-size:14px; margin-top:6px">Vendeurs</div>
+        @Helper.SelectList("SellerFilterSelectList", (SelectList)Session["SellerFilterList"], (int)Session["SellerFilterChoice"])
+    </div>
 </div>
 <hr />
 
@@ -30,14 +33,14 @@
 </div>
 @section Scripts {
     <script defer>
-    setInterval(function () { location.reload(); }, 600000);
+        setInterval(function () { location.reload(); }, 600000);
 
-     $("#SoldFilterSelectList").change(() => {
-         window.location = "@Url.Action("SetSoldFilterChoice")" + "/" + $("#SoldFilterSelectList").val();
-     })
+         $("#SoldFilterSelectList").change(() => {
+             window.location = "@Url.Action("SetSoldFilterChoice")" + "/" + $("#SoldFilterSelectList").val();
+         })
 
-    $("#SellerFilterSelectList").change(() => {
-        window.location = "@Url.Action("SetSellerFilterChoice")" + "/" + $("#SellerFilterSelectList").val();
-     })
+        $("#SellerFilterSelectList").change(() => {
+            window.location = "@Url.Action("SetSellerFilterChoice")" + "/" + $("#SellerFilterSelectList").val();
+         })
     </script>
 }

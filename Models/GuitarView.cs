@@ -41,6 +41,9 @@ namespace GuitarBazar.Models
         [Display(Name = "Type")]
         public int GuitarTypeId { get; set; }
 
+        [Display(Name = "Type")]
+        public virtual GuitarType GuitarType { get; set; }
+
         [Display(Name = "Photo  "), Url(ErrorMessage = "Invalide")]
         public string ImageURL { get; set; }
 

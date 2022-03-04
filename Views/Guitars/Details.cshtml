@@ -4,95 +4,34 @@
     ViewBag.Title = "Details";
 }
 
-<h2>
-    @Model.Maker / @Model.Model
-
-</h2>
- &nbsp;
-<div style="display:grid; grid-template-columns:50px 50px 50px">
-    @Helper.GlyphiconAction("Edit/" + Model.Id, "glyphicon-edit", "Modifier " + Model.Model)
-    @Helper.GlyphiconConfirmAction("Delete/" + Model.Id.ToString(), "glyphicon-remove-circle", "Effacer " + Model.Model + "...")
-    @Helper.GlyphiconAction("Index", "glyphicon-circle-arrow-left", "Retour à la liste")
+<div style="display:grid; grid-template-columns: 260px 150px">
+    <h1 style="font-weight:bold"> @Model.Maker</h1>
+    <div style="padding-top:30px;display:grid; grid-template-columns: 50px 50px 50px">
+        @Helper.GlyphiconAction("Edit/" + Model.Id, "glyphicon-edit", "Modifier " + Model.Model)
+        @Helper.GlyphiconConfirmAction("Delete/" + Model.Id.ToString(), "glyphicon-remove-circle", "Effacer " + Model.Model + "...")
+        @Helper.GlyphiconAction("Index", "glyphicon-circle-arrow-left", "Retour à la liste")
+    </div>
 </div>
-<table>
-    <tr>
-        <td style="vertical-align:top">
-            <a href="@Model.ImageURL" target="_blank">
-                @Helper.GuitarImage("guitarImage", "previewBig", Model.ImageURL, false, Model.RotateImage)
-            </a>
-        </td>
-        <td>
-            <div>
-                <h3>Vendeur: <a href="/Sellers/Details/@Model.Seller.Id">@Model.Seller.Name</a></h3>
+<h3 style="font-weight:bold">
+    @Model.Model,  @Html.DisplayFor(model => model.Year), @Html.DisplayFor(model => model.Condition.Name)
+</h3>
 
-                <hr />
-                <dl class="dl-horizontal">
+<h1 style="font-weight:bold">
+    @Html.DisplayFor(model => model.Price)
+    @if (Model.Sold)
+    {
+        <span style="color:red"> - Vendu</span>
+    }
+</h1>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.AddDate)
-                    </dt>
+<h2><a href="/Sellers/Details/@Model.Seller.Id">@Model.Seller.Name</a></h2>
+<h3>@Helper.When(Model.AddDate)</h3>
+<hr />
 
-                    <dd>
-                        @Helper.When(Model.AddDate)
-                        <hr />
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Description)
-
-                    </dt>
-
-                    <dd>
-                        <div style="text-align:justify">
-                            @Html.DisplayFor(model => model.Description)
-                        </div>
-                        <hr />
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Year)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Year)
-                    </dd>
-
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Condition)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Condition.Name)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.GuitarType)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.GuitarType.Name)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Price)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Price)
-                    </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Sold)
-                    </dt>
-
-                    <dd>
-                        @Helper.BoolToValue(Model.Sold)
-                    </dd>
-
-                </dl>
-            </div>
-        </td>
-    </tr>
-</table>
+<a href="@Model.ImageURL" target="_blank">
+    @Helper.GuitarImage("guitarImage", "detailsGuitarImage", Model.ImageURL, false, !Model.RotateImage)
+</a>
+<div style="width:100%;text-align:justify; font-size:18px">
+    @Html.DisplayFor(model => model.Description)
+</div>
 

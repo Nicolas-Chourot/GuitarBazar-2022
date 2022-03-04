@@ -5,53 +5,38 @@
 }
 
 <h2>Liste des vendeurs</h2>
+<br />
+<div class="SellersContainerHead">
+    <div>@Html.DisplayNameFor(model => model.Name)</div>
+    <div>@Html.DisplayNameFor(model => model.Email) </div>
+    <div>@Html.DisplayNameFor(model => model.Phone)</div>
+    <div>@Helper.GlyphiconAction("Create", "glyphicon-plus", "Ajout de vendeur")</div>
+</div>
 
-<table class="table">
-    <tr>
-        <th>
-          
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>  @Helper.GlyphiconAction("Create", "glyphicon-plus", "Ajout de vendeur")</th>
-        <th></th>
-        <th></th>
-    </tr>
+@foreach (var item in Model)
+{
+    <div class="SellerContainer">
+        <div class="ellipsis">
+            @Html.DisplayFor(modelItem => item.Name)
+        </div>
+        <div class="ellipsis">
+            @Html.DisplayFor(modelItem => item.Email)
+        </div>
+        <div class="ellipsis">
+            @Html.DisplayFor(modelItem => item.Phone)
+        </div>
+        <div>
+            @Helper.GlyphiconAction("Edit/" + item.Id.ToString(), "glyphicon-edit", "Modifier " + item.Name + "...")
+        </div>
+        <div>
+            @Helper.GlyphiconAction("Details/" + item.Id.ToString(), "glyphicon-eye-open", "Détails sur " + item.Name + "...")
+        </div>
+        <div>
+            @Helper.GlyphiconConfirmAction("Delete/" + item.Id.ToString(), "glyphicon-remove-circle", "Effacer " + item.Name + "...")
+        </div>
+    </div>
+}
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Helper.GlyphiconAction("Edit/" + item.Id.ToString(), "glyphicon-edit", "Modifier " + item.Name + "...")
-            </td>
-            <td>
-                @Helper.GlyphiconAction("Details/" + item.Id.ToString(), "glyphicon-eye-open", "Détails sur " + item.Name + "...")
-            </td>
-            <td>
-                @Helper.GlyphiconConfirmAction("Delete/" + item.Id.ToString(), "glyphicon-remove-circle", "Effacer " + item.Name + "...")
-            </td>
-        </tr>
-    }
-
-</table>
 
 <script>
     setInterval(function () { location.reload(); }, 600000);
