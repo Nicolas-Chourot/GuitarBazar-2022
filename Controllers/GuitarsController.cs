@@ -79,7 +79,7 @@ namespace GuitarBazar.Controllers
             ViewBag.Conditions = SelectListItemConverter<Condition>.Convert(DB.Conditions.ToList());
             ViewBag.GuitarTypes = SelectListItemConverter<GuitarType>.Convert(DB.GuitarTypes.ToList());
             ViewBag.Sellers = SelectListItemConverter<Seller>.Convert(DB.Sellers.ToList());
-            return View(new Guitar());
+            return View(guitar);
         }
 
         public ActionResult Edit(int id)
