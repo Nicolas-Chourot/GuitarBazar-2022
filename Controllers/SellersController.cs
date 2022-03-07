@@ -35,10 +35,15 @@ namespace GuitarBazar.Controllers
             return View(seller);
         }
 
+        public PartialViewResult SellerForm(Seller seller)
+        {
+            return PartialView(seller);
+        }
+
         // GET: Sellers/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new Seller());
         }
 
         // POST: Sellers/Create
