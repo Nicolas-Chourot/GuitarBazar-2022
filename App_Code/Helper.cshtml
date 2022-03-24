@@ -12,7 +12,7 @@
         {
             <input type="radio" name="@name" class="@name" id="@id" value="@option.Value.ToString()" />
         }
-        <label for="@id" class="control-label">@option.Text</label>
+        <label for="@id" class="control-label" style="height:30px;padding-bottom:10px;">@option.Text</label>
     }
     <br />
 }
@@ -28,7 +28,7 @@
             }
             else
             {
-                <option value="@option.Value" >@option.Text</option>
+                <option value="@option.Value">@option.Text</option>
             }
         }
     </select>

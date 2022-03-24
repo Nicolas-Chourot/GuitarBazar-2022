@@ -13,7 +13,7 @@
     </div>
     <div style="display:grid; grid-template-columns: 70px 180px">
         <div style="font-size:14px; margin-top:6px">Vendeurs</div>
-        @Helper.SelectList("SellerFilterSelectList", (SelectList)Session["SellerFilterList"], (int)Session["SellerFilterChoice"])
+        @Helper.SelectList("SellerFilterSelectList", (SelectList)HttpRuntime.Cache["SellerFilterList"], (int)Session["SellerFilterChoice"])
     </div>
 </div>
 <hr />

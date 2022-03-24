@@ -18,12 +18,23 @@ namespace GuitarBazar.Controllers
             {
                 Session["SoldFilterChoice"] = 0;
                 Session["SoldFilterList"] = SelectListItemConverter<string>.Convert(new List<string> { "Toutes", "invendues", "Vendues" });
-            }
-            if (Session["SellerFilterChoice"] == null)
-            {
                 Session["SellerFilterChoice"] = 0;
-                Session["SellerFilterList"] = SelectListItemConverter<Seller>.Convert(DB.Sellers.ToList(), "0", "Tous");
-            }            
+            }
+
+            if (HttpRuntime.Cache["SellerFilterList"] == null)
+            {
+                HttpRuntime.Cache["SellerFilterList"] = SelectListItemConverter<Seller>.Convert(DB.Sellers.ToList(), "0", "Tous");
+                HttpRuntime.Cache["SellersListUpdated"] = true;
+            }
+            else
+            {
+                if (!(bool)HttpRuntime.Cache["SellersListUpdated"])
+                {
+                    Session["SellerFilterChoice"] = 0;
+                    HttpRuntime.Cache["SellerFilterList"] = SelectListItemConverter<Seller>.Convert(DB.Sellers.ToList(), "0", "Tous");
+                    HttpRuntime.Cache["SellersListUpdated"] = true;
+                }
+            }
         }
 
         // GET: Guitars

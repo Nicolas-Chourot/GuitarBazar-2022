@@ -12,6 +12,7 @@ namespace GuitarBazar.Models
         public Guitar()
         {
             AddDate = DateTime.Now;
+            Year = DateTime.Now.Year;
         }
        
     }
@@ -44,7 +45,8 @@ namespace GuitarBazar.Models
         [Display(Name = "Type")]
         public virtual GuitarType GuitarType { get; set; }
 
-        [Display(Name = "Photo  "), Url(ErrorMessage = "Invalide")]
+        [Display(Name = "Url de l'image"), Url(ErrorMessage = "Invalide")]
+        [Required(ErrorMessage = "Obligatoire")]
         public string ImageURL { get; set; }
 
         [Display(Name = "Rotation")]

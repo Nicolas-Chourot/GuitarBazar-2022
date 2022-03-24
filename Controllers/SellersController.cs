@@ -56,6 +56,7 @@ namespace GuitarBazar.Controllers
             if (ModelState.IsValid)
             {
                 db.Add_Seller(seller);
+                HttpRuntime.Cache["SellersListUpdated"] = false;
                 return RedirectToAction("Index");
             }
 
@@ -87,6 +88,7 @@ namespace GuitarBazar.Controllers
             if (ModelState.IsValid)
             {
                 db.Update_Seller(seller);
+                HttpRuntime.Cache["SellersListUpdated"] = false;
                 return RedirectToAction("Index");
             }
             return View(seller);
@@ -95,6 +97,7 @@ namespace GuitarBazar.Controllers
         public ActionResult Delete(int id)
         {
             db.Remove_Seller(id);
+            HttpRuntime.Cache["SellersListUpdated"] = false;
             return RedirectToAction("Index");
         }
 

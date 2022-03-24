@@ -8,7 +8,6 @@
 <br />
 <div class="SellersContainerHead">
     <div>@Html.DisplayNameFor(model => model.Name)</div>
-    <div>@Html.DisplayNameFor(model => model.Email) </div>
     <div>@Html.DisplayNameFor(model => model.Phone)</div>
     <div>@Helper.GlyphiconAction("Create", "glyphicon-plus", "Ajout de vendeur")</div>
 </div>
@@ -17,10 +16,9 @@
 {
     <div class="SellerContainer">
         <div class="ellipsis">
-            @Html.DisplayFor(modelItem => item.Name)
-        </div>
-        <div class="ellipsis">
-            @Html.DisplayFor(modelItem => item.Email)
+            <a href="mailto:@item.Email">
+                @Html.DisplayFor(modelItem => item.Name)
+            </a>
         </div>
         <div class="ellipsis">
             @Html.DisplayFor(modelItem => item.Phone)
