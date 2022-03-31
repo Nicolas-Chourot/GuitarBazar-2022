@@ -1,5 +1,5 @@
 ﻿
-@model IEnumerable<GuitarBazar.Models.Guitar>
+
 @{
     ViewBag.Title = "Index";
 }
@@ -18,22 +18,14 @@
 </div>
 <hr />
 
-<div class='thumbnailListContainer'>
-    @foreach (var guitar in Model)
-    {
-        <div class='thumbnailContainer'>
-            <div class='thumbnailHeader ellipsis'>
-                <b>@guitar.Model</b>
-            </div>
-            <a href="@Url.Action("Details", "Guitars", new { id = guitar.Id })">
-                @Helper.GuitarImage("thumbail" + guitar.Id, "thumbnail", guitar.ImageURL, guitar.Sold, guitar.RotateImage)
-            </a>
-        </div>
-    }
+<div id="thumbnailListContainer" class='thumbnailListContainer'>
+    @{ Html.RenderAction("GetGuitares", new { forceRefresh = true }); }
 </div>
+
 @section Scripts {
+    @Scripts.Render("~/bundles/partialRefresh")
     <script defer>
-        setInterval(function () { location.reload(); }, 600000);
+         installPartialRefresh("@Url.Action("GetGuitares")", "thumbnailListContainer", 3 /*secondes*/, null);
 
          $("#SoldFilterSelectList").change(() => {
              window.location = "@Url.Action("SetSoldFilterChoice")" + "/" + $("#SoldFilterSelectList").val();

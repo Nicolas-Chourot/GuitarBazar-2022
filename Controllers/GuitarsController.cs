@@ -12,6 +12,29 @@ namespace GuitarBazar.Controllers
     {
         Models.GuitarBazarDBEntities DB = new Models.GuitarBazarDBEntities();
 
+        public void RenewGuitaresSerialNumber()
+        {
+
+            HttpRuntime.Cache["guitaresSerialNumber"] = Guid.NewGuid().ToString();
+        }
+        public string GetGuitaresSerialNumber()
+        {
+            if (HttpRuntime.Cache["guitaresSerialNumber"] == null)
+            {
+                RenewGuitaresSerialNumber();
+            }
+            return (string)HttpRuntime.Cache["guitaresSerialNumber"];
+        }
+        public void SetLocalGuitaresSerialNumber()
+        {
+            Session["guitaresSerialNumber"] = GetGuitaresSerialNumber();
+        }
+        public bool IsGuitaresUpToDate()
+        {
+            return ((string)Session["guitaresSerialNumber"] == (string)HttpRuntime.Cache["guitaresSerialNumber"]);
+        }
+
+
         private void InitSessionKeys()
         {
             if (Session["SoldFilterChoice"] == null)
@@ -41,7 +64,18 @@ namespace GuitarBazar.Controllers
         public ActionResult Index()
         {
             InitSessionKeys();
-            return View(DB.FilteredGuitarList((int)Session["SoldFilterChoice"], (int)Session["SellerFilterChoice"]));
+            SetLocalGuitaresSerialNumber();
+            return View();
+        }
+
+        public PartialViewResult GetGuitares(bool forceRefresh = false)
+        {
+            if (forceRefresh || !IsGuitaresUpToDate())
+            {
+                SetLocalGuitaresSerialNumber();
+                return PartialView(DB.FilteredGuitarList((int)Session["SoldFilterChoice"], (int)Session["SellerFilterChoice"]));
+            }
+            return null;
         }
 
         public ActionResult SetSoldFilterChoice(int id)
@@ -85,6 +119,7 @@ namespace GuitarBazar.Controllers
             if (ModelState.IsValid)
             {
                 DB.Add_Guitar(guitar);
+                RenewGuitaresSerialNumber();
                 return RedirectToAction("Index");
             }
             ViewBag.Conditions = SelectListItemConverter<Condition>.Convert(DB.Conditions.ToList());
@@ -111,6 +146,7 @@ namespace GuitarBazar.Controllers
             if (ModelState.IsValid)
             {
                 DB.Update_Guitar(guitar);
+                RenewGuitaresSerialNumber();
                 return RedirectToAction("Index");
             }
             ViewBag.Conditions = SelectListItemConverter<Condition>.Convert(DB.Conditions.ToList());
@@ -121,6 +157,7 @@ namespace GuitarBazar.Controllers
         public ActionResult Delete(int id)
         {
             DB.Remove_Guitar(id);
+            RenewGuitaresSerialNumber();
             return RedirectToAction("Index");
         }
         public ActionResult About()

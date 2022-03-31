@@ -248,3 +248,7 @@ dt {
             font-size: 18px !important;
         }
 }
+
+.thumbnailListContainer {
+    border: 2px solid green;
+}
